@@ -1,0 +1,1483 @@
+/* ========================================
+   NEO-BRUTALIST DESIGN SYSTEM
+   Number Guessing Game - Full Redesign
+   ======================================== */
+
+/* ========================================
+   LOCAL FONTS - Space Grotesk
+   ======================================== */
+
+/* Latin - Regular (400) */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/SpaceGrotesk-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Latin - Medium (500) */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/SpaceGrotesk-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Latin - Bold (700) */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/SpaceGrotesk-700.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Latin - Black (900) - Using Latin Regular for 900 weight */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('fonts/SpaceGrotesk-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Latin-ext */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('fonts/SpaceGrotesk-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Vietnamese */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('fonts/SpaceGrotesk-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+
+/* ========================================
+   DESIGN TOKENS
+   ======================================== */
+:root {
+  /* Colors - High Saturation Palette */
+  --neo-bg: #FFFDF5;        /* Cream canvas - aged paper feel */
+  --neo-ink: #000000;       /* Pure black - structural color */
+  --neo-accent: #FF6B6B;    /* Hot red - primary action */
+  --neo-secondary: #FFD93D; /* Vivid yellow - secondary highlight */
+  --neo-muted: #C4B5FD;     /* Soft violet - tertiary depth */
+  --neo-white: #FFFFFF;     /* White - contrast panels */
+  --neo-blue: #6B9FFF;      /* Blue - available numbers */
+  
+  /* Typography */
+  --font-family: 'Space Grotesk', sans-serif;
+  --font-black: 900;
+  --font-bold: 700;
+  --font-medium: 500;
+  --font-regular: 400;
+  
+  /* Borders - The neo-brutalist signature */
+  --border-thin: 2px solid var(--neo-ink);
+  --border-default: 4px solid var(--neo-ink);
+  --border-thick: 6px solid var(--neo-ink);
+  --border-heavy: 8px solid var(--neo-ink);
+  
+  /* Hard Shadows - Zero blur, solid blocks */
+  --shadow-xs: 2px 2px 0px 0px var(--neo-ink);
+  --shadow-sm: 4px 4px 0px 0px var(--neo-ink);
+  --shadow-md: 6px 6px 0px 0px var(--neo-ink);
+  --shadow-lg: 8px 8px 0px 0px var(--neo-ink);
+  --shadow-xl: 12px 12px 0px 0px var(--neo-ink);
+  --shadow-2xl: 16px 16px 0px 0px var(--neo-ink);
+  
+  /* Shadow offset for "press" effect */
+  --shadow-offset: 2px;
+  
+  /* Spacing - Dense 8px grid */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+}
+
+/* ========================================
+   BASE STYLES & RESET
+   ======================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-family);
+  background-color: var(--neo-bg);
+  color: var(--neo-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--neo-bg);
+  /* Halftone dot pattern overlay */
+  background-image: 
+    radial-gradient(circle, var(--neo-ink) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center;
+  padding: var(--space-4);
+  overflow-x: hidden;
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-black);
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+}
+
+h2 {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+}
+
+h3 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+p, li, span {
+  font-weight: var(--font-bold);
+  line-height: 1.4;
+}
+
+/* Text stroke effect for display headlines */
+.text-stroke {
+  -webkit-text-stroke: 3px var(--neo-ink);
+  color: transparent;
+}
+
+.text-stroke-thick {
+  -webkit-text-stroke: 4px var(--neo-ink);
+  color: transparent;
+}
+
+/* Uppercase with wide tracking for labels */
+.label-text {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+}
+
+/* ========================================
+   LAYOUT CONTAINERS
+   ======================================== */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Main game wrapper with neo-brutalist frame */
+.game-frame {
+  background-color: var(--neo-white);
+  border: var(--border-heavy);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-6);
+  margin: var(--space-4) auto;
+  max-width: 1000px;
+  position: relative;
+  /* Slight rotation for sticker effect */
+  transform: rotate(-0.5deg);
+}
+
+@media (min-width: 768px) {
+  .game-frame {
+    padding: var(--space-10);
+    margin: var(--space-8) auto;
+    transform: rotate(-1deg);
+  }
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+  position: relative;
+}
+
+header::before {
+  content: '◆';
+  position: absolute;
+  top: -20px;
+  left: 10%;
+  font-size: 2rem;
+  color: var(--neo-accent);
+  transform: rotate(15deg);
+  animation: float 3s ease-in-out infinite;
+}
+
+header::after {
+  content: '★';
+  position: absolute;
+  top: -10px;
+  right: 15%;
+  font-size: 2.5rem;
+  color: var(--neo-secondary);
+  animation: spin-slow 8s linear infinite;
+}
+
+.game-title {
+  display: inline-block;
+  background-color: var(--neo-secondary);
+  border: var(--border-default);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-4) var(--space-6);
+  transform: rotate(-2deg);
+  margin-bottom: var(--space-4);
+}
+
+.game-title h1 {
+  margin: 0;
+  line-height: 1;
+}
+
+.subtitle {
+  display: inline-block;
+  background-color: var(--neo-ink);
+  color: var(--neo-white);
+  padding: var(--space-2) var(--space-4);
+  font-weight: var(--font-black);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+  transform: rotate(1deg);
+  border: var(--border-default);
+}
+
+/* ========================================
+   SCREENS
+   ======================================== */
+.screen {
+  display: none;
+  animation: slideIn 0.4s ease-out;
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+/* ========================================
+   CARDS - Neo-brutalist containers
+   ======================================== */
+.card {
+  background-color: var(--neo-white);
+  border: var(--border-default);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-6);
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.card-header {
+  background-color: var(--neo-blue);
+  border-bottom: var(--border-default);
+  margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) var(--space-6);
+  padding: var(--space-4) var(--space-6);
+}
+
+.card-accent {
+  background-color: var(--neo-blue);
+}
+
+.card-secondary {
+  background-color: var(--neo-secondary);
+}
+
+.card-ink {
+  background-color: var(--neo-ink);
+  color: var(--neo-white);
+}
+
+/* Decorative corners on cards */
+.card-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: var(--neo-accent);
+  border: var(--border-default);
+}
+
+.card-corner-tl { top: -8px; left: -8px; }
+.card-corner-tr { top: -8px; right: -8px; }
+.card-corner-bl { bottom: -8px; left: -8px; }
+.card-corner-br { bottom: -8px; right: -8px; }
+
+/* ========================================
+   BUTTONS - The mechanical click effect
+   ======================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-family);
+  font-weight: var(--font-black);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 1rem;
+  padding: var(--space-4) var(--space-8);
+  border: var(--border-default);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.1s ease;
+  /* No border-radius - sharp corners */
+  border-radius: 0;
+  /* Hard shadow */
+  box-shadow: var(--shadow-sm);
+  /* Prevent text selection */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Button variants */
+.btn-primary {
+  background-color: var(--neo-blue);
+  color: var(--neo-ink);
+}
+
+.btn-secondary {
+  background-color: var(--neo-secondary);
+  color: var(--neo-ink);
+}
+
+.btn-outline {
+  background-color: var(--neo-white);
+  color: var(--neo-ink);
+}
+
+.btn-ink {
+  background-color: var(--neo-ink);
+  color: var(--neo-white);
+}
+
+.btn-muted {
+  background-color: var(--neo-muted);
+  color: var(--neo-ink);
+}
+
+/* Hover states */
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* THE MECHANICAL CLICK - Push effect */
+.btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.btn-large {
+  font-size: 1.25rem;
+  padding: var(--space-5) var(--space-10);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-large:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-large:active {
+  transform: translate(6px, 6px);
+  box-shadow: none;
+}
+
+/* Button with icon */
+.btn-icon {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+}
+
+/* Button group */
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+  margin-top: var(--space-6);
+}
+
+/* ========================================
+   INPUTS - Sharp and bold
+   ======================================== */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .input-group {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+input[type="number"],
+input[type="text"] {
+  font-family: var(--font-family);
+  font-weight: var(--font-black);
+  font-size: 1.5rem;
+  text-align: center;
+  padding: var(--space-4);
+  border: var(--border-default);
+  border-radius: 0;
+  background-color: var(--neo-white);
+  color: var(--neo-ink);
+  width: 100%;
+  min-height: 56px;
+  transition: all 0.15s ease;
+  /* Remove number spinner arrows */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Hide number spinner for Chrome/Safari/Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  outline: none;
+  background-color: var(--neo-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+input[type="number"]::placeholder {
+  color: var(--neo-ink);
+  opacity: 0.4;
+  font-weight: var(--font-bold);
+}
+
+/* ========================================
+   BADGES - Sticker-like elements
+   ======================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-weight: var(--font-black);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-default);
+  border-radius: 9999px; /* Pill shape */
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.badge-accent {
+  background-color: var(--neo-accent);
+  color: var(--neo-ink);
+}
+
+.badge-secondary {
+  background-color: var(--neo-secondary);
+  color: var(--neo-ink);
+}
+
+.badge-muted {
+  background-color: var(--neo-muted);
+  color: var(--neo-ink);
+}
+
+.badge-ink {
+  background-color: var(--neo-ink);
+  color: var(--neo-white);
+}
+
+/* Rotated badges for sticker effect */
+.badge-rotate-1 { transform: rotate(2deg); }
+.badge-rotate-2 { transform: rotate(-3deg); }
+.badge-rotate-3 { transform: rotate(4deg); }
+
+/* ========================================
+   STATUS INDICATORS
+   ======================================== */
+.status-box {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-default);
+  font-weight: var(--font-black);
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.status-your-turn {
+  background-color: var(--neo-secondary);
+  box-shadow: var(--shadow-sm);
+  animation: pulse-border 1.5s ease-in-out infinite;
+}
+
+.status-waiting {
+  background-color: var(--neo-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.status-winner {
+  background-color: var(--neo-accent);
+  box-shadow: var(--shadow-md);
+  font-size: 1.25rem;
+  padding: var(--space-4) var(--space-6);
+}
+
+/* ========================================
+   GAME LAYOUT - Grid system
+   ======================================== */
+.game-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .game-layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  
+  .game-layout .game-status {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ========================================
+   GAME INFO PANEL
+   ======================================== */
+.game-status {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--neo-white);
+  border: var(--border-default);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .game-status {
+    flex-direction: row;
+    padding: var(--space-4) var(--space-6);
+  }
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.secret-number-display {
+  display: inline-block;
+  background-color: var(--neo-accent);
+  color: var(--neo-ink);
+  font-weight: var(--font-black);
+  font-size: 1.25rem;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-default);
+  box-shadow: var(--shadow-sm);
+  min-width: 60px;
+  text-align: center;
+}
+
+.secret-number-hidden {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: #9E9E9E;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-default);
+  font-weight: var(--font-bold);
+}
+
+/* ========================================
+   GUESS PANEL
+   ======================================== */
+.guess-panel {
+  background-color: var(--neo-white);
+  border: var(--border-default);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.guess-panel h3 {
+  text-align: center;
+  margin-bottom: var(--space-2);
+}
+
+.waiting-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  background-color: var(--neo-muted);
+  border: var(--border-default);
+  border-style: dashed;
+}
+
+/* ========================================
+   GUESS HISTORY
+   ======================================== */
+.history-panel {
+  background-color: var(--neo-white);
+  border: var(--border-default);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-6);
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.history-panel h3 {
+  text-align: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: var(--border-thin);
+}
+
+.guess-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.empty-message {
+  text-align: center;
+  color: var(--neo-ink);
+  opacity: 0.5;
+  font-style: italic;
+  padding: var(--space-8) var(--space-4);
+}
+
+.guess-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-default);
+  animation: slideInRight 0.3s ease-out;
+}
+
+.guess-item-player-1 {
+  background-color: #E3F2FD;
+  border-left-width: 8px;
+  border-left-color: #2196F3;
+}
+
+.guess-item-player-2 {
+  background-color: #F3E5F5;
+  border-left-width: 8px;
+  border-left-color: #9C27B0;
+}
+
+.guess-item-correct {
+  background-color: var(--neo-secondary);
+  border-color: var(--neo-ink);
+  border-width: 4px;
+}
+
+.guess-number {
+  font-weight: var(--font-black);
+  font-size: 1.25rem;
+}
+
+.guess-player-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+
+.guess-result {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: var(--font-black);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-thin);
+}
+
+.guess-result-higher {
+  background-color: var(--neo-secondary);
+}
+
+.guess-result-lower {
+  background-color: var(--neo-muted);
+}
+
+.guess-result-correct {
+  background-color: var(--neo-accent);
+}
+
+/* ========================================
+    NUMBER TRACKER PANEL
+   ======================================== */
+.number-tracker-panel {
+  background-color: var(--neo-white);
+  border: var(--border-default);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-4);
+}
+
+.tracker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.tracker-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.btn-small {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.85rem;
+  min-width: unset;
+}
+
+.number-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 3px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.number-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-black);
+  font-size: 0.75rem;
+  border: var(--border-thin);
+  background-color: var(--neo-white);
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.number-cell:hover {
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.number-cell.available {
+  background-color: var(--neo-blue);
+}
+
+.number-cell.eliminated {
+  background-color: var(--neo-accent);
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.number-cell.my-guess {
+  background-color: var(--neo-secondary);
+  border-color: var(--neo-ink);
+  border-width: 3px;
+}
+
+.tracker-legend {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: var(--border-thin);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  font-size: 0.7rem;
+  font-weight: var(--font-bold);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.legend-item::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border: var(--border-thin);
+}
+
+.legend-available::before {
+  background-color: var(--neo-blue);
+}
+
+.legend-eliminated::before {
+  background-color: var(--neo-accent);
+  opacity: 0.5;
+}
+
+.legend-my-guess::before {
+  background-color: var(--neo-secondary);
+  border-width: 3px;
+}
+
+/* ========================================
+   GAME OVER SCREEN
+   ======================================== */
+.game-over-card {
+  text-align: center;
+  max-width: 500px;
+}
+
+.game-over-emoji {
+  font-size: 5rem;
+  line-height: 1;
+  margin-bottom: var(--space-4);
+  display: inline-block;
+  animation: bounce 1s ease infinite;
+}
+
+.reveal-numbers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+  padding: var(--space-4);
+  background-color: var(--neo-bg);
+  border: var(--border-default);
+}
+
+@media (min-width: 480px) {
+  .reveal-numbers {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.number-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.number-reveal .label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: var(--font-bold);
+}
+
+.number-reveal .number {
+  font-size: 2.5rem;
+  font-weight: var(--font-black);
+  background-color: var(--neo-white);
+  border: var(--border-default);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-2) var(--space-6);
+  min-width: 100px;
+}
+
+/* ========================================
+   START SCREEN - Hero section
+   ======================================== */
+.start-card {
+  text-align: center;
+  max-width: 600px;
+  position: relative;
+}
+
+.start-card::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -30px;
+  width: 80px;
+  height: 80px;
+  background-color: var(--neo-accent);
+  border: var(--border-default);
+  transform: rotate(12deg);
+  z-index: -1;
+}
+
+.start-card::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: -25px;
+  width: 60px;
+  height: 60px;
+  background-color: var(--neo-secondary);
+  border: var(--border-default);
+  transform: rotate(-8deg);
+  z-index: -1;
+}
+
+.game-icon {
+  font-size: 5rem;
+  margin-bottom: var(--space-4);
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+
+.rules {
+  text-align: left;
+  background-color: var(--neo-bg);
+  border: var(--border-default);
+  padding: var(--space-6);
+  margin: var(--space-6) 0;
+  position: relative;
+}
+
+.rules::before {
+  content: 'Rules';
+  position: absolute;
+  top: -14px;
+  left: var(--space-4);
+  background-color: var(--neo-ink);
+  color: var(--neo-white);
+  padding: var(--space-1) var(--space-3);
+  font-weight: var(--font-black);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+.rules ol {
+  padding-left: var(--space-6);
+  margin: 0;
+}
+
+.rules li {
+  margin: var(--space-3) 0;
+  font-weight: var(--font-bold);
+}
+
+/* ========================================
+   WAITING & SELECTION SCREENS
+   ======================================== */
+.waiting-card {
+  text-align: center;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: var(--border-default);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto var(--space-6);
+}
+
+.selection-card {
+  text-align: center;
+}
+
+.number-display-box {
+  display: inline-block;
+  background-color: var(--neo-secondary);
+  border: var(--border-default);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-4) var(--space-8);
+  margin: var(--space-4) 0;
+}
+
+.number-display-box .number {
+  font-size: 3rem;
+  font-weight: var(--font-black);
+  line-height: 1;
+}
+
+/* ========================================
+   DISCONNECT SCREEN
+   ======================================== */
+.disconnect-emoji {
+  font-size: 4rem;
+  margin-bottom: var(--space-4);
+}
+
+/* ========================================
+   ERROR MESSAGES
+   ======================================== */
+.error-message {
+  background-color: var(--neo-accent);
+  border: var(--border-default);
+  padding: var(--space-3) var(--space-4);
+  font-weight: var(--font-bold);
+  text-align: center;
+  margin-top: var(--space-3);
+  animation: shake 0.5s ease-in-out;
+}
+
+/* ========================================
+   DECORATIVE ELEMENTS
+   ======================================== */
+.deco-shape {
+  position: absolute;
+  border: var(--border-default);
+  pointer-events: none;
+}
+
+.deco-star {
+  color: var(--neo-accent);
+  font-size: 2rem;
+  animation: spin-slow 10s linear infinite;
+}
+
+.deco-circle {
+  border-radius: 50%;
+  background-color: var(--neo-secondary);
+}
+
+.deco-square {
+  background-color: var(--neo-muted);
+  transform: rotate(15deg);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-border {
+  0%, 100% { border-color: var(--neo-ink); }
+  50% { border-color: var(--neo-accent); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+   ======================================== */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--neo-bg);
+  border-left: var(--border-default);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neo-ink);
+  border: var(--border-default);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neo-accent);
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+
+.hidden { display: none !important; }
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================
+    STICKY FOOTER - MOBILE TURN INDICATOR
+    ======================================== */
+.turn-footer {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--neo-white);
+  border-top: var(--border-default);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-3);
+  z-index: 1000;
+  animation: slideUpFooter 0.3s ease-out;
+}
+
+@keyframes slideUpFooter {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .turn-footer {
+    display: none;
+  }
+  
+  .turn-footer.active {
+    display: flex;
+  }
+  
+  .guess-panel {
+    display: none;
+  }
+}
+
+.turn-footer-input-wrapper {
+  display: flex;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.turn-footer-input-wrapper input {
+  flex: 7;
+  font-family: var(--font-family);
+  font-weight: var(--font-black);
+  font-size: 1.5rem;
+  text-align: center;
+  padding: var(--space-3);
+  border: var(--border-default);
+  background-color: var(--neo-bg);
+  color: var(--neo-ink);
+  min-height: 52px;
+}
+
+.turn-footer-input-wrapper input::placeholder {
+  color: var(--neo-ink);
+  opacity: 0.4;
+}
+
+.turn-footer-input-wrapper input::-webkit-outer-spin-button,
+.turn-footer-input-wrapper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.turn-footer-input-wrapper input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.turn-footer-input-wrapper .btn {
+  flex: 3;
+  min-width: unset;
+  padding: var(--space-3) var(--space-4);
+}
+
+/* ========================================
+    RESPONSIVE ADJUSTMENTS
+    ======================================== */
+@media (max-width: 640px) {
+  body {
+    padding: var(--space-2);
+    padding-bottom: calc(var(--space-2) + 80px);
+  }
+  
+  .game-frame {
+    padding: var(--space-4);
+    margin: var(--space-2) auto;
+  }
+  
+  .card {
+    padding: var(--space-4);
+  }
+  
+  .btn {
+    width: 100%;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .btn-large {
+    font-size: 1.1rem;
+    padding: var(--space-4) var(--space-6);
+  }
+  
+  input[type="number"],
+  input[type="text"] {
+    font-size: 1.25rem;
+  }
+}
+
+/* ========================================
+   TURN NOTIFICATION OVERLAY
+   ======================================== */
+.turn-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.turn-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.turn-overlay-content {
+  background: var(--neo-white);
+  border: var(--border-heavy);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-6);
+  text-align: center;
+  max-width: 320px;
+  margin: var(--space-4);
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.turn-overlay.active .turn-overlay-content {
+  transform: scale(1);
+  animation: bounce 0.5s ease;
+}
+
+.turn-overlay-emoji {
+  font-size: 4rem;
+  margin-bottom: var(--space-4);
+}
+
+.turn-overlay-title {
+  font-family: var(--font-family);
+  font-weight: var(--font-black);
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--neo-ink);
+  margin-bottom: var(--space-2);
+}
+
+.turn-overlay-message {
+  font-size: 1.1rem;
+  color: var(--neo-ink);
+  opacity: 0.8;
+  margin-bottom: var(--space-6);
+}
+
+.turn-overlay .btn {
+  min-width: 150px;
+}
+
+/* ========================================
+   SVG ICONS STYLES
+   ======================================== */
+.icon-inline {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1.2em;
+  height: 1.2em;
+  margin-left: 0.25em;
+}
+
+.game-icon svg,
+.game-over-icon svg,
+.disconnect-icon svg,
+.turn-overlay-icon svg {
+  stroke-width: 1.5;
+}
+
+/* ========================================
+   LOBBY STYLES
+   ======================================== */
+.lobby-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  margin-bottom: var(--space-4);
+}
+
+.lobby-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.lobby-input-group input[type="text"] {
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+}
+
+@media (min-width: 640px) {
+  .lobby-input-group {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  
+  .lobby-input-group input[type="text"] {
+    flex: 2;
+    font-size: 1.5rem;
+  }
+  
+  .lobby-input-group .btn {
+    flex: 1;
+    min-width: unset;
+  }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  font-weight: var(--font-bold);
+  font-size: 0.875rem;
+  color: var(--neo-ink);
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background-color: var(--neo-ink);
+  opacity: 0.3;
+}
+
+.lobby-code-display {
+  display: inline-block;
+  background-color: var(--neo-secondary);
+  color: var(--neo-ink);
+  font-family: var(--font-family);
+  font-weight: var(--font-black);
+  font-size: 2.5rem;
+  padding: var(--space-4) var(--space-6);
+  border: var(--border-heavy);
+  box-shadow: var(--shadow-md);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: var(--space-2);
+}

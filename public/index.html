@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Numble</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Main Game Frame -->
+    <div class="game-frame">
+      
+      <!-- Header -->
+      <header>
+        <div class="game-title">
+          <h1>
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            NUMBLE
+          </h1>
+        </div>
+        <div class="subtitle">NUMBER GUESSING GAME</div>
+      </header>
+
+      <!-- Start Screen -->
+      <div id="startScreen" class="screen active">
+        <div class="card start-card">
+          <div class="game-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+          </div>
+          <h2>READY TO PLAY?</h2>
+          
+          <div class="rules">
+            <ol>
+              <li>Each player secretly picks a <strong>number</strong></li>
+              <li>Take turns guessing each other's number</li>
+              <li>Get hints (higher/lower) based on guesses</li>
+              <li>First to guess correctly <strong>WINS!</strong></li>
+            </ol>
+          </div>
+          
+          <div class="lobby-section">
+            <div class="lobby-input-group">
+              <input 
+                type="text" 
+                id="lobbyCodeInput" 
+                placeholder="ENTER LOBBY CODE"
+                maxlength="8"
+                autocomplete="off"
+              >
+              <button id="joinLobbyBtn" class="btn btn-primary">
+                JOIN LOBBY
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+            <div class="divider">
+              <span>OR</span>
+            </div>
+            <button id="createLobbyBtn" class="btn btn-secondary btn-large">
+              CREATE LOBBY
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><rect x="2" y="10" width="12" height="12" rx="2" transform="rotate(45 8 16)"/><rect x="6" y="4" width="12" height="12" rx="2"/><path d="M14 8h.01"/><path d="M18 8h.01"/><path d="M14 12h.01"/><path d="M18 12h.01"/></svg>
+            </button>
+          </div>
+          
+          <p id="lobbyError" class="error-message hidden"></p>
+          
+          <div class="divider">
+            <span>OR</span>
+          </div>
+          
+          <button id="startBtn" class="btn btn-primary btn-large">
+            FIND RANDOM OPPONENT
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Lobby Created Screen -->
+      <div id="lobbyCreatedScreen" class="screen">
+        <div class="card waiting-card">
+          <div class="game-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h2>LOBBY CREATED!</h2>
+          <p class="label-text mt-4">Share this code with your friend:</p>
+          <div id="lobbyCodeDisplay" class="lobby-code-display">----</div>
+          <div class="spinner mt-4"></div>
+          <p class="label-text">Waiting for opponent to join...</p>
+          <button id="cancelLobbyBtn" class="btn btn-secondary mt-6">
+            CANCEL
+          </button>
+        </div>
+      </div>
+
+      <!-- Waiting Screen -->
+      <div id="waitingScreen" class="screen">
+        <div class="card waiting-card">
+          <div class="spinner"></div>
+          <h2>FINDING OPPONENT...</h2>
+          <p class="label-text mt-4">Please wait while we match you</p>
+          <div class="mt-6">
+            <span class="badge badge-secondary badge-rotate-1">MATCHMAKING</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Number Selection Screen -->
+      <div id="selectionScreen" class="screen">
+        <div class="card selection-card">
+          <div class="card-header card-accent" style="transform: rotate(-1deg); margin-top: -28px;">
+            <h3 style="margin: 0;">PICK YOUR NUMBER</h3>
+          </div>
+          
+          <p class="mt-4">Choose a secret number from <strong>1 to 100</strong></p>
+          <p class="label-text" style="opacity: 0.7;">Keep it hidden!</p>
+          
+          <div class="input-group mt-6">
+            <input 
+              type="number" 
+              id="numberInput" 
+              min="1" 
+              max="100" 
+              placeholder="??"
+              autocomplete="off"
+            >
+            <button id="submitNumberBtn" class="btn btn-primary">
+              LOCK IN
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </button>
+          </div>
+          
+          <p id="selectionError" class="error-message hidden"></p>
+        </div>
+      </div>
+
+      <!-- Waiting for Opponent Screen -->
+      <div id="waitingOpponentScreen" class="screen">
+        <div class="card waiting-card">
+          <div class="badge badge-accent badge-rotate-2" style="position: absolute; top: -15px; right: 20px;">SET!</div>
+          
+          <h2>NUMBER LOCKED</h2>
+          
+          <div class="number-display-box">
+            <div class="number" id="myNumberDisplay">?</div>
+          </div>
+          
+          <p class="label-text">Your secret number</p>
+          
+          <div class="waiting-overlay mt-6">
+            <div class="spinner" style="width: 40px; height: 40px;"></div>
+            <p>Waiting for opponent...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Screen -->
+      <div id="gameScreen" class="screen">
+        <div class="game-layout">
+          
+          <!-- Game Status Panel -->
+          <div class="game-status game-status-panel">
+            <div class="info-row">
+              <span class="label-text">Your Number:</span>
+              <span id="playerNumberDisplay" class="secret-number-display">?</span>
+            </div>
+            
+            <div id="turnIndicator" class="status-box status-waiting">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><path d="M5 22v-5l9-7-9-7V2"/></svg>
+                WAITING
+              </span>
+            </div>
+            
+            <div class="info-row">
+              <span class="label-text">Opponent:</span>
+              <span class="secret-number-hidden">
+                <span>HIDDEN</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.2rem" height="1.2rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Guess Panel -->
+          <div class="guess-panel">
+            <h3>MAKE A GUESS</h3>
+            
+            <div id="guessInputSection" class="input-group">
+              <input 
+                type="number" 
+                id="guessInput" 
+                min="1" 
+                max="100" 
+                placeholder="1-100"
+                autocomplete="off"
+              >
+              <button id="submitGuessBtn" class="btn btn-primary">
+                GUESS!
+                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </button>
+            </div>
+            
+            <div id="waitingMessage" class="waiting-overlay hidden">
+              <div class="spinner" style="width: 40px; height: 40px;"></div>
+              <p>Opponent's turn...</p>
+            </div>
+            
+            <p id="guessError" class="error-message hidden"></p>
+          </div>
+
+          <!-- Number Tracker Panel -->
+          <div id="numberTrackerPanel" class="number-tracker-panel">
+            <div class="tracker-header">
+              <h3>NUMBER TRACKER</h3>
+              <button id="toggleTrackerBtn" class="btn btn-small">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+            </div>
+            <div id="numberGrid" class="number-grid">
+              <!-- Generated by JS -->
+            </div>
+            <div class="tracker-legend">
+              <span class="legend-item legend-available">Available</span>
+              <span class="legend-item legend-eliminated">Eliminated</span>
+              <span class="legend-item legend-my-guess">My Guess</span>
+            </div>
+          </div>
+
+          <!-- History Panel -->
+          <div class="history-panel">
+            <h3>GUESS HISTORY</h3>
+            <div id="guessHistory" class="guess-list">
+              <p class="empty-message">No guesses yet</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- Game Over Screen -->
+      <div id="gameOverScreen" class="screen">
+        <div class="card game-over-card">
+          <div id="winnerIcon" class="game-over-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+          </div>
+          
+          <h2 id="gameOverTitle">GAME OVER!</h2>
+          
+          <p id="gameOverMessage" class="mt-4" style="font-size: 1.1rem;"></p>
+          
+          <div class="reveal-numbers">
+            <div class="number-reveal">
+              <span class="label">Your Number</span>
+              <span id="revealMyNumber" class="number">?</span>
+            </div>
+            <div class="number-reveal">
+              <span class="label">Opponent's</span>
+              <span id="revealOpponentNumber" class="number">?</span>
+            </div>
+          </div>
+          
+          <div class="button-group">
+            <button id="playAgainBtn" class="btn btn-primary">
+              PLAY AGAIN
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+            </button>
+            <button id="newGameBtn" class="btn btn-secondary">
+              NEW OPPONENT
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Disconnect Screen -->
+      <div id="disconnectScreen" class="screen">
+        <div class="card" style="text-align: center;">
+          <div class="disconnect-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          </div>
+          <h2>OPPONENT LEFT</h2>
+          <p class="mt-4">Your opponent disconnected</p>
+          <button id="findNewOpponentBtn" class="btn btn-primary btn-large mt-6">
+            FIND NEW OPPONENT
+            <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+    
+<!-- Sticky Footer - Mobile Turn Indicator -->
+    <div id="turnFooter" class="turn-footer">
+      <div class="turn-footer-input-wrapper">
+        <input 
+          type="number" 
+          id="footerGuessInput" 
+          min="1" 
+          max="100" 
+          placeholder="1-100"
+          autocomplete="off"
+        >
+        <button id="footerGuessBtn" class="btn btn-primary">
+          GUESS
+        </button>
+      </div>
+    </div>
+    </div>
+
+    <!-- Decorative floating elements -->
+    <div style="position: fixed; top: 10%; left: 5%; font-size: 2rem; animation: float 4s ease-in-out infinite; opacity: 0.5;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <div style="position: fixed; bottom: 15%; right: 8%; font-size: 2.5rem; animation: spin-slow 15s linear infinite; opacity: 0.5;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="2.5rem" height="2.5rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9l4-6Z"/></svg>
+    </div>
+    <div style="position: fixed; top: 30%; right: 5%; font-size: 1.5rem; animation: bounce 2s ease infinite; opacity: 0.5;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+    </div>
+
+    <!-- Turn Notification Overlay -->
+    <div id="turnOverlay" class="turn-overlay">
+      <div class="turn-overlay-content">
+        <div id="turnOverlayIcon" class="turn-overlay-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="4rem" height="4rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        </div>
+        <div id="turnOverlayTitle" class="turn-overlay-title">YOUR TURN!</div>
+        <div id="turnOverlayMessage" class="turn-overlay-message">Guess your opponent's number</div>
+        <button id="turnOverlayBtn" class="btn btn-primary btn-large">GOT IT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Socket.IO -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
